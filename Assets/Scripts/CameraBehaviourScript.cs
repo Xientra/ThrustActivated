@@ -15,7 +15,6 @@ public class CameraBehaviourScript : MonoBehaviour {
 
     }
 
-
     void FixedUpdate() {
         transform.position = Vector3.Slerp(transform.position, playerObject.transform.position, positionChangeSpeed);
         transform.rotation = Quaternion.Slerp(transform.rotation, playerObject.transform.rotation, rotationChangeSpeed);

@@ -25,6 +25,18 @@ public class PlayerController : MonoBehaviour {
     private Vector3 thrust = new Vector3(0, 0, 0);
     private Quaternion addingRotation;
 
+    [Header("Camera: ")]
+
+    public GameObject CameraAnchor;
+
+    [Range(0f, 1f)]
+    public float positionChangeSpeed = 0.4f;
+    [Range(0f, 1f)]
+    public float rotationChangeSpeed = 0.6f;
+
+    private bool rotateCamera = false;
+    private Quaternion additionalCameraRotation = Quaternion.identity; 
+
     [Header("Debug: ")]
 
     public Vector3 SpeedDebug;
@@ -41,13 +53,8 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.R)) {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            Cursor.lockState = CursorLockMode.None;
-        }
 
+        /*=====Movement Input=====*/
         if (Input.GetKey(KeyCode.W)) {
 
             thrust = new Vector3(thrust.x, thrust.y, forwardThrustPower);
@@ -73,6 +80,8 @@ public class PlayerController : MonoBehaviour {
         }
 
 
+
+        /*=====Rotation Input=====*/
         float zRot = 0;
         if (Input.GetKey(KeyCode.Q)) {
 
@@ -86,25 +95,67 @@ public class PlayerController : MonoBehaviour {
 
             addingRotation = Quaternion.Euler(addingRotation.x, addingRotation.y, rotationSpeed);
         }
-
         addingRotation = Quaternion.Euler(-(Input.GetAxisRaw("Mouse Y")) * rotationSpeed, (Input.GetAxisRaw("Mouse X")) * rotationSpeed, zRot * rotationSpeed);
+
+        /*=====Other Input=====*/
+        if (Input.GetKey(KeyCode.LeftShift)) {
+            rotateCamera = true;
+        }
+        else {
+            rotateCamera = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.R)) {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            Cursor.lockState = CursorLockMode.None;
+        }
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            playerRigidbody.velocity = Vector3.zero;
+        }
     }
 
     void FixedUpdate() {
-        Movement_RotateVelocity();
+        MovePlayer();
+        if (rotateCamera == true) {
+            additionalCameraRotation *= addingRotation;
+        }
+        else {
+            RotatePlayer();
+        }
+
+        MoveCamera();
+        RotateCamera();
+
+        RotationModification_RotateVelocity();
 
         //playerRigidbody.angularVelocity = Vector3.Lerp(playerRigidbody.angularVelocity, Vector3.zero, stopAngularVelocitySpeed);
 
+        //Debug Stuff
         SpeedDebug = playerRigidbody.velocity;
         totalSpeedDebug = playerRigidbody.velocity.magnitude;
     }
 
-    private void Movement_RotateVelocity() {
+    private void MovePlayer() {
         if (thrust != Vector3.zero) {
             playerRigidbody.AddForce((transform.right * thrust.x) + (transform.forward * thrust.z), ForceMode.Force);
         }
+    }
+    private void RotatePlayer() {
         transform.localRotation *= addingRotation;
+    }
 
+    private void MoveCamera() {
+        CameraAnchor.transform.position = Vector3.Slerp(CameraAnchor.transform.position, transform.position, positionChangeSpeed);
+    }
+    private void RotateCamera() {
+        CameraAnchor.transform.rotation = Quaternion.Slerp(CameraAnchor.transform.rotation, transform.rotation * additionalCameraRotation, rotationChangeSpeed);
+    }
+
+
+
+    private void RotationModification_RotateVelocity() {
         //float velMag = playerRigidbody.velocity.magnitude;
         playerRigidbody.velocity = Vector3.Slerp(playerRigidbody.velocity, transform.forward * playerRigidbody.velocity.magnitude, velocityRotationSpeed);
 
@@ -118,11 +169,7 @@ public class PlayerController : MonoBehaviour {
         //playerRigidbody.rotation = transform.localRotation * addingRotation;
     }
 
-    private void Movement_DecreaseLocalVelocity() {
-        if (thrust != Vector3.zero) {
-            playerRigidbody.AddForce((transform.right * thrust.x) + (transform.forward * thrust.z), ForceMode.Force);
-        }
-        transform.localRotation *= addingRotation;
+    private void RotationModification_DecreaseLocalVelocity() {
 
         Vector3 LocalVelocity = transform.InverseTransformDirection(playerRigidbody.velocity);
         LocalVelocity = new Vector3(LocalVelocity.x * localStopPower.x, LocalVelocity.y * localStopPower.y, LocalVelocity.z * localStopPower.z);
