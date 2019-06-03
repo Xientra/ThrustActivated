@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour {
 
     private Rigidbody playerRigidbody;
 
+    public GameObject ProjectileObject;
+
     public float forwardThrustPower = 5f;
     public float sidewayThrustpower = 1f;
     public float backwardThrustPower = 1f;
@@ -80,7 +82,6 @@ public class PlayerController : MonoBehaviour {
         }
 
 
-
         /*=====Rotation Input=====*/
         float zRot = 0;
         if (Input.GetKey(KeyCode.Q)) {
@@ -113,6 +114,10 @@ public class PlayerController : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.Space)) {
             playerRigidbody.velocity = Vector3.zero;
+        }
+
+        if (Input.GetMouseButtonDown(0)) {
+            Instantiate(ProjectileObject, transform.position, transform.rotation);
         }
     }
 

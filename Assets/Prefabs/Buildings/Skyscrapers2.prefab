@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8701219322420988764}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Skyscrapers2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 2975860730939325356}
   - component: {fileID: 1810303869889325683}
   - component: {fileID: 8674588501289890892}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Building_2_Plane.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,6 +100,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -137,10 +138,10 @@ BoxCollider:
   m_GameObject: {fileID: 8701219322421090174}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.988228, y: 3.813817, z: 1.988228}
-  m_Center: {x: 0, y: 1.9069085, z: 0}
+  m_Size: {x: 1.988228, y: 3.2895107, z: 1.988228}
+  m_Center: {x: 0, y: 1.6447554, z: 0}
 --- !u!65 &1810303869889325683
 BoxCollider:
   m_ObjectHideFlags: 0

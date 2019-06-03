@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2344419763609603040}
   - component: {fileID: 8745594899158103877}
   - component: {fileID: 5272089743518078380}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Building_1_Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67,6 +67,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -118,7 +119,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2344419763611896066}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Skyscrapers1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
