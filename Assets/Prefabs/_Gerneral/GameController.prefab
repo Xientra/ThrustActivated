@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ef915f20881c3645838418be106bc21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartChunk: {fileID: 0}
-  chunkPrefab: {fileID: 651039846677766635, guid: 6caf314147a92d043942ca66076f4215,
+  chunkPrefab: {fileID: 651039846677766634, guid: 6caf314147a92d043942ca66076f4215,
     type: 3}
+  activePlayer: {fileID: 0}
+  startChunk: {fileID: 0}

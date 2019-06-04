@@ -4,10 +4,17 @@ public class GameController : MonoBehaviour {
 
     public static GameController activeInstance;
 
-    public Chunk StartChunk;
-    public Chunk chunkPrefab;
+    public GameObject chunkPrefab;
 
     public Player activePlayer;
+
+    [Space(10)]
+
+    //public GameObject[] Chunks;
+    public Chunk startChunk;
+    public Chunk lastChunk;
+    public Chunk currentChunk;
+    public Chunk nextChunk;
 
     private void Awake() {
         if (activeInstance == null) {
@@ -23,11 +30,35 @@ public class GameController : MonoBehaviour {
             activePlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         }
 
-
-        StartChunk.GenerateBuildings(StartChunk.WorldParameter.lossyScale.x, StartChunk.WorldParameter.lossyScale.z, StartChunk.WorldParameter.position.x, StartChunk.WorldParameter.position.z);
+        currentChunk = startChunk;
+        //startChunk.GenerateBuildings();
+        nextChunk = SpawnNewChunk();
     }
 
     void Update() {
 
+    }
+
+    private void FixedUpdate() {
+        if (currentChunk.PlayerIsPresent() == false && nextChunk.PlayerIsPresent() == true) {
+
+            Debug.Log("hi?");
+            if (lastChunk != null) {
+                Destroy(lastChunk.gameObject);
+            }
+
+            lastChunk = currentChunk;
+            currentChunk = nextChunk;
+
+            nextChunk = SpawnNewChunk();
+        }
+    }
+
+    private Chunk SpawnNewChunk() {
+        GameObject chunkGo = Instantiate(chunkPrefab, currentChunk.transform.position + new Vector3(0, 0, currentChunk.Collider.transform.lossyScale.z), chunkPrefab.transform.rotation);
+        Chunk chunk = chunkGo.GetComponent<Chunk>();
+        //chunk.GenerateBuildings();
+
+        return chunk;
     }
 }

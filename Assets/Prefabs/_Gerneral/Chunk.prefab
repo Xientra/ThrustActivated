@@ -48,16 +48,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca7bfbbc36bb696448aa7d844bb7f6d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Ground: {fileID: 651039847997322985}
+  Collider: {fileID: 6546735455378928008}
+  BarrierTop: {fileID: 5679604288604606898}
   Buildings:
   - {fileID: 2344419763611604258, guid: 970540959a30b3642a52533c24f547c0, type: 3}
   - {fileID: 8701219322421090172, guid: 44ac51e282077104e853dc99119c39f7, type: 3}
   - {fileID: 7945189622405440086, guid: f18952b86f0a47243a8f7ffe76e16542, type: 3}
   - {fileID: 7933329527809468537, guid: 3bb5bd3154922014e90ff92adffad305, type: 3}
-  WorldParameter: {fileID: 2722333711156283588}
-  Ground: {fileID: 651039847997322985}
-  Collider: {fileID: 6546735455378928008}
-  BarrierTop: {fileID: 5679604288604606898}
-  SpawnWorldOnStart: 0
+  SpawnBuildingsOnStart: 1
 --- !u!1 &651039847997322985
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,7 +261,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3553517918151090418
 Transform:
   m_ObjectHideFlags: 0
