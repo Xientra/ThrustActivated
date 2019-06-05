@@ -7,7 +7,7 @@ public class Chunk : MonoBehaviour {
     public GameObject Collider;
     public GameObject BarrierTop;
     private Vector3 BarrierTopOriginalScale;
-
+    private Quaternion BarrierTopOriginalRotation;
     public GameObject[] Buildings;
 
     public bool SpawnBuildingsOnStart = true;
@@ -19,6 +19,7 @@ public class Chunk : MonoBehaviour {
 
     void Start() {
         BarrierTopOriginalScale = BarrierTop.transform.localScale;
+        BarrierTopOriginalRotation = BarrierTop.transform.rotation;
 
         if (SpawnBuildingsOnStart == true) {
             if (Ground != null) {
@@ -98,15 +99,30 @@ public class Chunk : MonoBehaviour {
             BarrierTop.transform.localScale = BarrierTopOriginalScale * (1 / (Collider.transform.localScale.y / 2) * (playerT.position.y - Collider.transform.localScale.y / 2));
 
             Material _mat = BarrierTop.GetComponent<MeshRenderer>().material;
-            _mat.mainTextureScale = 0.1f * BarrierTopOriginalScale * (1 / (Collider.transform.localScale.y / 2) * (playerT.position.y - Collider.transform.localScale.y / 2));
+            _mat.mainTextureScale = 0.1f * BarrierTop.transform.localScale;
             _mat.mainTextureOffset = new Vector2((int)playerT.position.z / 10 - playerT.position.z / 10, (int)playerT.position.x / 10 - playerT.position.x / 10);
 
-            //if (playerT.position.y > WorldParameter.localScale.y) { //player is above the DangerZone
-            //    BarrierTop.transform.rotation = Quaternion.Euler(-90, 90, 0);
-            //}
-            //else {
-            //    BarrierTop.transform.rotation = Quaternion.Euler(90, -90, 0);
-            //}
+            if (playerT.position.y > Collider.transform.localScale.y) { //player is above the DangerZone
+                BarrierTop.transform.rotation = Quaternion.Euler(-90, -90, 0);
+            }
+            else {
+                BarrierTop.transform.rotation = BarrierTopOriginalRotation;
+            }
+
+            //BarrierTop.SetActive(true);
+            //BarrierTop.transform.position = new Vector3(playerT.position.x, BarrierTop.transform.position.y, playerT.position.z);
+            //BarrierTop.transform.localScale = BarrierTopOriginalScale * (1 / (Collider.transform.localScale.y / 2) * (playerT.position.y - Collider.transform.localScale.y / 2));
+
+            //Material _mat = BarrierTop.GetComponent<MeshRenderer>().material;
+            //_mat.mainTextureScale = 1f * new Vector2(BarrierTop.transform.localScale.x, BarrierTop.transform.localScale.z);//BarrierTopOriginalScale * (1 / (Collider.transform.localScale.y / 2) * (playerT.position.y - Collider.transform.localScale.y / 2));
+            //_mat.mainTextureOffset = new Vector2((int)playerT.position.z / 10 - playerT.position.z / 10, (int)playerT.position.x / 10 - playerT.position.x / 10);
+
+            ////if (playerT.position.y > Collider.transform.localScale.y) { //player is above the DangerZone
+            ////    BarrierTop.transform.rotation = Quaternion.Euler(0, -90, 0);
+            ////}
+            ////else {
+            ////    BarrierTop.transform.rotation = BarrierTopOriginalRotation;
+            ////}
 
         }
         else {
