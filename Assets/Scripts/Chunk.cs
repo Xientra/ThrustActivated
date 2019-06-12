@@ -1,14 +1,19 @@
 ﻿using UnityEngine;
-//using System;
+using System.Collections;
 
 public class Chunk : MonoBehaviour {
 
+    public GameObject[] Buildings;
+
     public GameObject Ground;
     public GameObject Collider;
+
+    public GameObject BarrierSides;
+    public GameObject BarrierBack;
     public GameObject BarrierTop;
     private Vector3 BarrierTopOriginalScale;
     private Quaternion BarrierTopOriginalRotation;
-    public GameObject[] Buildings;
+
 
     public bool SpawnBuildingsOnStart = true;
 
@@ -68,6 +73,22 @@ public class Chunk : MonoBehaviour {
         }
     }
 
+    public void SetToCurrentChunk(float _delay) {
+        StartCoroutine(DelaySetToCurrentChunk(_delay));
+    }
+    private IEnumerator DelaySetToCurrentChunk(float _delay) {
+        yield return new WaitForSeconds(_delay);
+        BarrierBack.SetActive(true);
+    }
+    public void SetToLastChunk(float _delay) {
+        StartCoroutine(DelaySetToLastChunk(_delay));
+    }
+    private IEnumerator DelaySetToLastChunk(float _delay) {
+        yield return new WaitForSeconds(_delay);
+        Collider.SetActive(false);
+        BarrierBack.SetActive(false);
+        BarrierSides.SetActive(false);
+    }
 
     public bool PlayerIsPresent() {
         Transform playerT = GameController.activeInstance.activePlayer.transform;

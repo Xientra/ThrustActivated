@@ -11,7 +11,6 @@ public class GameController : MonoBehaviour {
     [Space(10)]
 
     //public GameObject[] Chunks;
-    public Chunk startChunk;
     public Chunk lastChunk;
     public Chunk currentChunk;
     public Chunk nextChunk;
@@ -30,8 +29,6 @@ public class GameController : MonoBehaviour {
             activePlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         }
 
-        currentChunk = startChunk;
-        //startChunk.GenerateBuildings();
         nextChunk = SpawnNewChunk();
     }
 
@@ -51,6 +48,9 @@ public class GameController : MonoBehaviour {
             currentChunk = nextChunk;
 
             nextChunk = SpawnNewChunk();
+
+            currentChunk.SetToCurrentChunk(3f);
+            lastChunk.SetToLastChunk(3f);
         }
     }
 

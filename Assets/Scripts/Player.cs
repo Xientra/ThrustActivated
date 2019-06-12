@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerController))]
+//[RequireComponent(typeof(PlayerController))]
 public class Player : MonoBehaviour {
 
     public GameObject SparksPrefab;
@@ -28,11 +28,20 @@ public class Player : MonoBehaviour {
 
     private void FixedUpdate() {
         if (inSaveZone == false) {
-            //deathTimeStamp += Time.fixedDeltaTime;
+            InGameUI.activeInstance.DangerZonePanel.SetActive(true);
+
+
 
             if (Time.time > deathTimeStamp) {
                 Destroy(this.gameObject);
             }
+        }
+        else {
+            InGameUI.activeInstance.DangerZonePanel.SetActive(false);
+        }
+
+        if (transform.rotation.x > 90 || transform.rotation.x < -90 || transform.rotation.y > 90 || transform.rotation.y < -90) {
+            InGameUI.activeInstance.ShowTurnBackText(0.05f);
         }
     }
 
