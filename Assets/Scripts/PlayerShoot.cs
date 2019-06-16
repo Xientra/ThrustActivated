@@ -6,7 +6,7 @@ public class PlayerShoot : MonoBehaviour {
 
 
     public GameObject[] LaserOrigins;
-    public GameObject ExplosionPrefab;
+    public GameObject LaserHitEffectPrefab;
 
     private void Start() {
         //LaserLineRenderer.enabled = false;
@@ -34,7 +34,7 @@ public class PlayerShoot : MonoBehaviour {
                 StartCoroutine(DeactivateLaser(los));
             }
 
-            GameObject _explosion = Instantiate(ExplosionPrefab, hit.point, Quaternion.identity);
+            GameObject _explosion = Instantiate(LaserHitEffectPrefab, hit.point, Quaternion.identity);
             Destroy(_explosion, 3f);
         }
         else {

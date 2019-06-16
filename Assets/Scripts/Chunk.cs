@@ -91,63 +91,67 @@ public class Chunk : MonoBehaviour {
     }
 
     public bool PlayerIsPresent() {
-        Transform playerT = GameController.activeInstance.activePlayer.transform;
+        if (GameController.activeInstance.gameIsRunning == true) {
+            Transform playerT = GameController.activeInstance.activePlayer.transform;
 
-        if (playerT.position.z - transform.position.z < Collider.transform.lossyScale.z) {
-            return true;
+            if (playerT.position.z - transform.position.z < Collider.transform.lossyScale.z) {
+                return true;
+            }
         }
-
         return false;
     }
 
     public bool IsPlayerInSecondHalf() {
-        Transform playerT = GameController.activeInstance.activePlayer.transform;
+        if (GameController.activeInstance.gameIsRunning == true) {
+            Transform playerT = GameController.activeInstance.activePlayer.transform;
 
-        if (playerT.position.z - transform.position.z > Collider.transform.lossyScale.z / 2) {
-            return true;
+            if (playerT.position.z - transform.position.z > Collider.transform.lossyScale.z / 2) {
+                return true;
+            }
         }
-
         return false;
     }
 
     public void CheckForBarrierTop() {
-        Transform playerT = GameController.activeInstance.activePlayer.transform;
+        if (GameController.activeInstance.gameIsRunning == true) {
+            Transform playerT = GameController.activeInstance.activePlayer.transform;
 
-        if (playerT.position.y > Collider.transform.localScale.y / 2 && PlayerIsPresent()) { //player is in upper half and in this chunk
+            if (playerT.position.y > Collider.transform.localScale.y / 2 && PlayerIsPresent()) { //player is in upper half and in this chunk
 
-            BarrierTop.SetActive(true);
-            BarrierTop.transform.position = new Vector3(playerT.position.x, BarrierTop.transform.position.y, playerT.position.z);
-            BarrierTop.transform.localScale = BarrierTopOriginalScale * (1 / (Collider.transform.localScale.y / 2) * (playerT.position.y - Collider.transform.localScale.y / 2));
+                BarrierTop.SetActive(true);
+                BarrierTop.transform.position = new Vector3(playerT.position.x, BarrierTop.transform.position.y, playerT.position.z);
+                BarrierTop.transform.localScale = BarrierTopOriginalScale * (1 / (Collider.transform.localScale.y / 2) * (playerT.position.y - Collider.transform.localScale.y / 2));
 
-            Material _mat = BarrierTop.GetComponent<MeshRenderer>().material;
-            _mat.mainTextureScale = 0.1f * BarrierTop.transform.localScale;
-            _mat.mainTextureOffset = new Vector2((int)playerT.position.z / 10 - playerT.position.z / 10, (int)playerT.position.x / 10 - playerT.position.x / 10);
+                Material _mat = BarrierTop.GetComponent<MeshRenderer>().material;
+                _mat.mainTextureScale = 0.1f * BarrierTop.transform.localScale;
+                _mat.mainTextureOffset = new Vector2((int)playerT.position.z / 10 - playerT.position.z / 10, (int)playerT.position.x / 10 - playerT.position.x / 10);
 
-            if (playerT.position.y > Collider.transform.localScale.y) { //player is above the DangerZone
-                BarrierTop.transform.rotation = Quaternion.Euler(-90, -90, 0);
+                if (playerT.position.y > Collider.transform.localScale.y) { //player is above the DangerZone
+                    BarrierTop.transform.rotation = Quaternion.Euler(-90, -90, 0);
+                }
+                else {
+                    BarrierTop.transform.rotation = BarrierTopOriginalRotation;
+                }
+
+                //BarrierTop.SetActive(true);
+                //BarrierTop.transform.position = new Vector3(playerT.position.x, BarrierTop.transform.position.y, playerT.position.z);
+                //BarrierTop.transform.localScale = BarrierTopOriginalScale * (1 / (Collider.transform.localScale.y / 2) * (playerT.position.y - Collider.transform.localScale.y / 2));
+
+                //Material _mat = BarrierTop.GetComponent<MeshRenderer>().material;
+                //_mat.mainTextureScale = 1f * new Vector2(BarrierTop.transform.localScale.x, BarrierTop.transform.localScale.z);//BarrierTopOriginalScale * (1 / (Collider.transform.localScale.y / 2) * (playerT.position.y - Collider.transform.localScale.y / 2));
+                //_mat.mainTextureOffset = new Vector2((int)playerT.position.z / 10 - playerT.position.z / 10, (int)playerT.position.x / 10 - playerT.position.x / 10);
+
+                ////if (playerT.position.y > Collider.transform.localScale.y) { //player is above the DangerZone
+                ////    BarrierTop.transform.rotation = Quaternion.Euler(0, -90, 0);
+                ////}
+                ////else {
+                ////    BarrierTop.transform.rotation = BarrierTopOriginalRotation;
+                ////}
+
             }
             else {
-                BarrierTop.transform.rotation = BarrierTopOriginalRotation;
+                BarrierTop.SetActive(false);
             }
-
-            //BarrierTop.SetActive(true);
-            //BarrierTop.transform.position = new Vector3(playerT.position.x, BarrierTop.transform.position.y, playerT.position.z);
-            //BarrierTop.transform.localScale = BarrierTopOriginalScale * (1 / (Collider.transform.localScale.y / 2) * (playerT.position.y - Collider.transform.localScale.y / 2));
-
-            //Material _mat = BarrierTop.GetComponent<MeshRenderer>().material;
-            //_mat.mainTextureScale = 1f * new Vector2(BarrierTop.transform.localScale.x, BarrierTop.transform.localScale.z);//BarrierTopOriginalScale * (1 / (Collider.transform.localScale.y / 2) * (playerT.position.y - Collider.transform.localScale.y / 2));
-            //_mat.mainTextureOffset = new Vector2((int)playerT.position.z / 10 - playerT.position.z / 10, (int)playerT.position.x / 10 - playerT.position.x / 10);
-
-            ////if (playerT.position.y > Collider.transform.localScale.y) { //player is above the DangerZone
-            ////    BarrierTop.transform.rotation = Quaternion.Euler(0, -90, 0);
-            ////}
-            ////else {
-            ////    BarrierTop.transform.rotation = BarrierTopOriginalRotation;
-            ////}
-
-        }
-        else {
-            BarrierTop.SetActive(false);
         }
     }
 }

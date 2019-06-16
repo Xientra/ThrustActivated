@@ -9,17 +9,24 @@ public class Player : MonoBehaviour {
     private GameObject sparksObject;
 
     Rigidbody rb;
+    private Vector3 lastPosition;
+
+    private bool flyingBackwarts = false;
 
     bool inSaveZone = true;
 
     public float timeBeforeDeath = 3f;
     float deathTimeStamp;
 
+
     float sparksCooldown = 0.1f;
     float sparkTimeSpamp;
 
+    public const float TIME_UNTIL_TURN_BACK_TEXT_SHOWS = 1f;
+
     void Start() {
         rb = GetComponent<Rigidbody>();
+        lastPosition = transform.position;
     }
 
     void Update() {
@@ -28,20 +35,36 @@ public class Player : MonoBehaviour {
 
     private void FixedUpdate() {
         if (inSaveZone == false) {
-            InGameUI.activeInstance.DangerZonePanel.SetActive(true);
-
-
+            InGameUI.activeInstance.EnableDangerZoneUI(true);
+            string _time = (deathTimeStamp - Time.time).ToString();
+            if ((deathTimeStamp - Time.time) > 0) {
+                if (_time.Length >= 4) InGameUI.activeInstance.timeRemainingText.text = _time.Substring(0, 4);
+            }
+            else InGameUI.activeInstance.timeRemainingText.text = "0,00";
 
             if (Time.time > deathTimeStamp) {
                 Destroy(this.gameObject);
             }
         }
         else {
-            InGameUI.activeInstance.DangerZonePanel.SetActive(false);
+            InGameUI.activeInstance.EnableDangerZoneUI(false);
         }
 
-        if (transform.rotation.x > 90 || transform.rotation.x < -90 || transform.rotation.y > 90 || transform.rotation.y < -90) {
-            InGameUI.activeInstance.ShowTurnBackText(0.05f);
+        if (lastPosition.z > transform.position.z && flyingBackwarts == false) {
+            flyingBackwarts = true;
+            StartCoroutine(StarShowingTurnBackText());
+        }
+        else if (lastPosition.z <= transform.position.z && flyingBackwarts == true) {
+            flyingBackwarts = false;
+            InGameUI.activeInstance.HideTurnBackText();
+        }
+        lastPosition = transform.position;
+    }
+
+    private IEnumerator StarShowingTurnBackText() {
+        yield return new WaitForSeconds(TIME_UNTIL_TURN_BACK_TEXT_SHOWS);
+        if (lastPosition.z > transform.position.z && flyingBackwarts == true) {
+            InGameUI.activeInstance.ShowTurnBackText();
         }
     }
 
@@ -90,10 +113,10 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private void OnGUI() {
-        if (inSaveZone == false) {
-            GUI.contentColor = Color.red;
-            GUI.Label(new Rect((Screen.width / 2) - 25, (Screen.height / 2), 1000, 1000), "Turn Back!" + "\n" + (deathTimeStamp - Time.time).ToString());
-        }
-    }
+    //private void OnGUI() {
+    //    if (inSaveZone == false) {
+    //        GUI.contentColor = Color.red;
+    //        GUI.Label(new Rect((Screen.width / 2) - 25, (Screen.height / 2), 1000, 1000), "Turn Back!" + "\n" + (deathTimeStamp - Time.time).ToString());
+    //    }
+    //}
 }

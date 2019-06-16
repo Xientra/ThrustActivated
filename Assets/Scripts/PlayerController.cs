@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour {
         playerRigidbody = GetComponent<Rigidbody>();
 
         Cursor.lockState = CursorLockMode.Locked;
+
+        CameraAnchor.transform.parent = null;
     }
 
     void Update() {

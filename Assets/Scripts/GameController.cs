@@ -5,8 +5,17 @@ public class GameController : MonoBehaviour {
     public static GameController activeInstance;
 
     public GameObject chunkPrefab;
+    public GameObject playerPrefab;
 
+    public GameObject playerSpawnPosition;
+
+    [Space(10)]
+
+    public GameObject startCamera;
     public Player activePlayer;
+
+    [HideInInspector]
+    public bool gameIsRunning = true;
 
     [Space(10)]
 
@@ -25,9 +34,9 @@ public class GameController : MonoBehaviour {
     }
 
     void Start() {
-        if (activePlayer == null) {
-            activePlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        }
+        //if (activePlayer == null) {
+        //    activePlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        //}
 
         nextChunk = SpawnNewChunk();
     }
@@ -37,9 +46,12 @@ public class GameController : MonoBehaviour {
     }
 
     private void FixedUpdate() {
+        if (activePlayer == null) {
+            gameIsRunning = false;
+        }
+
         if (currentChunk.PlayerIsPresent() == false && nextChunk.PlayerIsPresent() == true) {
 
-            Debug.Log("hi?");
             if (lastChunk != null) {
                 Destroy(lastChunk.gameObject);
             }
@@ -51,6 +63,17 @@ public class GameController : MonoBehaviour {
 
             currentChunk.SetToCurrentChunk(3f);
             lastChunk.SetToLastChunk(3f);
+
+            Debug.Log("Spawned new Chunk");
+        }
+    }
+
+    public void SpawnPlayer() {
+        PlayerController pc = Instantiate(playerPrefab, playerSpawnPosition.transform.position, Quaternion.identity).GetComponent<PlayerController>();
+
+        if (startCamera != null) {
+            Destroy(pc.CameraAnchor);
+            pc.CameraAnchor = startCamera;
         }
     }
 
