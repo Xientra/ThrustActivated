@@ -48,7 +48,10 @@ MonoBehaviour:
     type: 3}
   playerPrefab: {fileID: 4376875276538515296, guid: 5e6f0d3731f8a2049bcc73f5a9ca0544,
     type: 3}
+  playerSpawnEffectPrefab: {fileID: 5350947763904036846, guid: 533661dd9293a0540bfe8747bbdc859d,
+    type: 3}
   playerSpawnPosition: {fileID: 4477028776723218249}
+  startCamera: {fileID: 0}
   activePlayer: {fileID: 0}
   gameIsRunning: 1
   lastChunk: {fileID: 0}

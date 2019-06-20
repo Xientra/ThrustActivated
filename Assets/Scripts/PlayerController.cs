@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour {
 
     private Rigidbody playerRigidbody;
 
+    public bool removeControll = false;
+
     public float forwardThrustPower = 5f;
     public float sidewayThrustpower = 1f;
     public float backwardThrustPower = 1f;
@@ -28,11 +30,14 @@ public class PlayerController : MonoBehaviour {
     [Header("Camera: ")]
 
     public GameObject CameraAnchor;
+    private Camera playerCamera;
 
     [Range(0f, 1f)]
     public float positionChangeSpeed = 0.4f;
     [Range(0f, 1f)]
     public float rotationChangeSpeed = 0.6f;
+    [Range(0f, 1f)]
+    public float fovIncreaseSpeed = 0.5f;
 
     private bool rotateCamera = false;
     private Quaternion additionalCameraRotation = Quaternion.identity; 
@@ -50,8 +55,10 @@ public class PlayerController : MonoBehaviour {
         playerRigidbody = GetComponent<Rigidbody>();
 
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         CameraAnchor.transform.parent = null;
+        playerCamera = CameraAnchor.GetComponentInChildren<Camera>();
     }
 
     void Update() {
@@ -108,25 +115,31 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.R)) {
             Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
         if (Input.GetKeyDown(KeyCode.Escape)) {
             Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         if (Input.GetKeyDown(KeyCode.Space)) {
-            playerRigidbody.velocity = Vector3.zero;
+            StopPlayer();
         }
     }
 
     void FixedUpdate() {
-        MovePlayer();
-        if (rotateCamera == true) {
-            additionalCameraRotation *= addingRotation;
-        }
-        else {
-            RotatePlayer();
+        if (removeControll == false) {
+            MovePlayer();
+            if (rotateCamera == true) {
+                additionalCameraRotation *= addingRotation;
+            }
+            else {
+                RotatePlayer();
+            }
         }
 
-        MoveCamera();
+        FOV_Camera();
+        //MoveCamera();
+        MoveCameraAbsolute();
         RotateCamera();
 
         RotationModification_RotateVelocity();
@@ -147,13 +160,22 @@ public class PlayerController : MonoBehaviour {
         transform.localRotation *= addingRotation;
     }
 
+    private void FOV_Camera() {
+        playerCamera.fieldOfView = 60 + (playerRigidbody.velocity.magnitude * fovIncreaseSpeed);
+    }
     private void MoveCamera() {
         CameraAnchor.transform.position = Vector3.Slerp(CameraAnchor.transform.position, transform.position, positionChangeSpeed);
+    }
+    private void MoveCameraAbsolute() {
+        CameraAnchor.transform.position = transform.position;
     }
     private void RotateCamera() {
         CameraAnchor.transform.rotation = Quaternion.Slerp(CameraAnchor.transform.rotation, transform.rotation * additionalCameraRotation, rotationChangeSpeed);
     }
 
+    public void StopPlayer() {
+        playerRigidbody.velocity = Vector3.zero;
+    }
 
 
     private void RotationModification_RotateVelocity() {
@@ -187,5 +209,10 @@ public class PlayerController : MonoBehaviour {
         //transform.Rotate(addingRotation.eulerAngles);
 
         //playerRigidbody.rotation = transform.localRotation * addingRotation;
+    }
+
+
+    public float GetVelocity() {
+        return playerRigidbody.velocity.magnitude;
     }
 }

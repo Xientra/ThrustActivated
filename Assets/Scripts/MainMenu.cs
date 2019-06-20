@@ -13,6 +13,8 @@ public class MainMenu : MonoBehaviour {
     public void Btn_Start() {
         GameController.activeInstance.SpawnPlayer();
         EnableUI(false);
+        InGameUI.activeInstance.scoreText.gameObject.SetActive(true);
+        InGameUI.activeInstance.hightscoreText.gameObject.SetActive(false);
     }
 
     public void Btn_Exit() {

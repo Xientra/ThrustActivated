@@ -9,10 +9,12 @@ public class InGameUI : MonoBehaviour {
 
     public static InGameUI activeInstance;
 
-    public GameObject DangerZonePanel;
+    public Animator DangerZonePanelAnimator;
     public TextMeshProUGUI turnBackText;
     public TextMeshProUGUI dangerText;
     public TextMeshProUGUI timeRemainingText;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI hightscoreText;
 
     private int turnBackStringIndex = 0;
     private bool turnBackDirection = true;
@@ -31,7 +33,7 @@ public class InGameUI : MonoBehaviour {
     }
 
     void Start() {
-
+        SetHightscoreText(GameController.activeInstance.hightScore);
     }
 
     void FixedUpdate() {
@@ -39,7 +41,7 @@ public class InGameUI : MonoBehaviour {
     }
 
     public void EnableDangerZoneUI(bool _value) {
-        DangerZonePanel.SetActive(_value);
+        DangerZonePanelAnimator.SetBool("visible", _value);
         dangerText.gameObject.SetActive(_value);
         timeRemainingText.gameObject.SetActive(_value);
 
@@ -138,4 +140,8 @@ public class InGameUI : MonoBehaviour {
         return _newText;
     }
     */
+    void SetHightscoreText(float _score) {
+        hightscoreText.text = "Hightscore: \n" + Mathf.Round(_score).ToString();
+    }
+
 }

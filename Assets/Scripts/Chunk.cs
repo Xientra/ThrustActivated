@@ -37,7 +37,7 @@ public class Chunk : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        CheckForBarrierTop();
+        //CheckForBarrierTop();
     }
 
     public void GenerateBuildings(float _newGroundSizeX, float _newGroundSizeZ, float _newGroundOffsetX, float _newGroundOffsetZ) {

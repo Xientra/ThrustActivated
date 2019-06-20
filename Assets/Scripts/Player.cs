@@ -2,14 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//[RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(PlayerController))]
 public class Player : MonoBehaviour {
 
     public GameObject SparksPrefab;
-    private GameObject sparksObject;
+    public GameObject OnDeathEffectPrefab;
 
+    public GameObject GFX_Object;
+
+    [HideInInspector]
+    public PlayerController playerController;
     Rigidbody rb;
     private Vector3 lastPosition;
+    private Vector3 lastVelocity;
+    private float maxSpeed;
+    private const float SURVIVALABLE_MAX_SPEED_PERCENT_DROP = 0.5f;
 
     private bool flyingBackwarts = false;
 
@@ -25,6 +32,7 @@ public class Player : MonoBehaviour {
     public const float TIME_UNTIL_TURN_BACK_TEXT_SHOWS = 1f;
 
     void Start() {
+        playerController = GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody>();
         lastPosition = transform.position;
     }
@@ -43,7 +51,7 @@ public class Player : MonoBehaviour {
             else InGameUI.activeInstance.timeRemainingText.text = "0,00";
 
             if (Time.time > deathTimeStamp) {
-                Destroy(this.gameObject);
+                DestroyPlayer();
             }
         }
         else {
@@ -58,7 +66,21 @@ public class Player : MonoBehaviour {
             flyingBackwarts = false;
             InGameUI.activeInstance.HideTurnBackText();
         }
+
+        //if (lastVelocity.magnitude > 40 && rb.velocity.magnitude < 10) {
+        //    DestroyPlayer();
+        //}
+        //if (rb.velocity.magnitude > 20) {
+            if (rb.velocity.magnitude < SURVIVALABLE_MAX_SPEED_PERCENT_DROP * maxSpeed) {
+                DestroyPlayer();
+            }
+        //}
+
+        lastVelocity = rb.velocity;
         lastPosition = transform.position;
+
+        if (rb.velocity.magnitude > maxSpeed)
+            maxSpeed = rb.velocity.magnitude;
     }
 
     private IEnumerator StarShowingTurnBackText() {
@@ -68,14 +90,6 @@ public class Player : MonoBehaviour {
         }
     }
 
-    //private void OnCollisionEnter(Collision collision) {
-    //    if (collision.gameObject.layer == 9 /*World*/) {
-    //        ContactPoint cp = collision.GetContact(0);
-    //        GameObject _sparks = Instantiate(SparksPrefab, cp.point + cp.normal * 0.1f, Quaternion.LookRotation(cp.normal));
-    //        Destroy(_sparks, 1.1f);
-    //    }
-    //}
-    
     private void OnCollisionStay(Collision collision) {
         if (collision.gameObject.layer == 9 /*World*/) {
             ContactPoint cp = collision.GetContact(0);
@@ -88,11 +102,6 @@ public class Player : MonoBehaviour {
             }
         }
     }
-    /*
-    private void OnCollisionExit(Collision collision) {
-        Destroy(sparksObject);
-    }
-    */
 
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("SaveZone")) {
@@ -113,10 +122,12 @@ public class Player : MonoBehaviour {
         }
     }
 
-    //private void OnGUI() {
-    //    if (inSaveZone == false) {
-    //        GUI.contentColor = Color.red;
-    //        GUI.Label(new Rect((Screen.width / 2) - 25, (Screen.height / 2), 1000, 1000), "Turn Back!" + "\n" + (deathTimeStamp - Time.time).ToString());
-    //    }
-    //}
+    private void DestroyPlayer() {
+        GameObject _effect = Instantiate(OnDeathEffectPrefab, transform.position, transform.rotation);
+
+        GameController.activeInstance.GameOver();
+
+        Destroy(_effect, 5f);
+        Destroy(this.gameObject);
+    }
 }

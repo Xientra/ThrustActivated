@@ -285,11 +285,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4376875276538515296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 10, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4376875276538417986}
-  - {fileID: 6175209200809648435}
   - {fileID: 6409481853150237344}
   - {fileID: 3836928589446384494}
   - {fileID: 8262095259679736494}
@@ -367,6 +366,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SparksPrefab: {fileID: 6184306880311118239, guid: 80faf3cecb8e62c448bc0ae1e0600eb0,
     type: 3}
+  OnDeathEffectPrefab: {fileID: 8503836801271246750, guid: 3c54063c04d7a5e4ea8418715936131c,
+    type: 3}
+  GFX_Object: {fileID: 4376875276538515298}
+  playerController: {fileID: 0}
   timeBeforeDeath: 3
 --- !u!114 &8301423932852160960
 MonoBehaviour:
@@ -397,6 +400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccb38805034fd8244a125ac02fa96f5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  removeControll: 0
   forwardThrustPower: 5
   sidewayThrustpower: 1
   backwardThrustPower: 1
@@ -406,6 +410,7 @@ MonoBehaviour:
   CameraAnchor: {fileID: 8262095259679736493}
   positionChangeSpeed: 0.4
   rotationChangeSpeed: 0.6
+  fovIncreaseSpeed: 0.25
   SpeedDebug: {x: 0, y: 0, z: 0}
   totalSpeedDebug: 0
 --- !u!1 &4376875276538515298
@@ -420,7 +425,7 @@ GameObject:
   - component: {fileID: 4376875276541842272}
   - component: {fileID: 4376875276540711328}
   m_Layer: 2
-  m_Name: SpaceShip_Mesh
+  m_Name: SpaceShip_GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -436,7 +441,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_Children: []
+  m_Children:
+  - {fileID: 6175209200809648435}
   m_Father: {fileID: 4376875276538417984}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -509,15 +515,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5995831295211082643}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 3436388006043372005}
   - {fileID: 4390816883629049004}
   - {fileID: 3857618344922183983}
-  m_Father: {fileID: 4376875276538417984}
-  m_RootOrder: 1
+  m_Father: {fileID: 4376875276538417986}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6411604166705017226
 GameObject:
@@ -548,7 +554,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4376875276538417984}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &1822428408774818169
 LineRenderer:
@@ -675,7 +681,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4376875276538417984}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &6331778422528835725
 LineRenderer:
@@ -1101,7 +1107,7 @@ PrefabInstance:
     - target: {fileID: 8951087054261708235, guid: bd3c28d79fbf6134f9f391028704acee,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8951087054261708235, guid: bd3c28d79fbf6134f9f391028704acee,
         type: 3}
