@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
 
     public GameObject SparksPrefab;
     public GameObject OnDeathEffectPrefab;
+    public GameObject BrokenEffect;
 
     public GameObject GFX_Object;
 
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour {
     private bool flyingBackwarts = false;
 
     bool inSaveZone = true;
+    private bool isDead = false;
 
     public float timeBeforeDeath = 3f;
     float deathTimeStamp;
@@ -58,23 +60,25 @@ public class Player : MonoBehaviour {
             InGameUI.activeInstance.EnableDangerZoneUI(false);
         }
 
-        if (lastPosition.z > transform.position.z && flyingBackwarts == false) {
-            flyingBackwarts = true;
-            StartCoroutine(StarShowingTurnBackText());
-        }
-        else if (lastPosition.z <= transform.position.z && flyingBackwarts == true) {
-            flyingBackwarts = false;
-            InGameUI.activeInstance.HideTurnBackText();
-        }
+        if (isDead == false) {
+            if (lastPosition.z > transform.position.z && flyingBackwarts == false) {
+                flyingBackwarts = true;
+                StartCoroutine(StarShowingTurnBackText());
+            }
+            else if (lastPosition.z <= transform.position.z && flyingBackwarts == true) {
+                flyingBackwarts = false;
+                InGameUI.activeInstance.HideTurnBackText();
+            }
 
-        //if (lastVelocity.magnitude > 40 && rb.velocity.magnitude < 10) {
-        //    DestroyPlayer();
-        //}
-        //if (rb.velocity.magnitude > 20) {
+            //if (lastVelocity.magnitude > 40 && rb.velocity.magnitude < 10) {
+            //    DestroyPlayer();
+            //}
+            //if (rb.velocity.magnitude > 20) {
             if (rb.velocity.magnitude < SURVIVALABLE_MAX_SPEED_PERCENT_DROP * maxSpeed) {
                 DestroyPlayer();
             }
-        //}
+            //}
+        }
 
         lastVelocity = rb.velocity;
         lastPosition = transform.position;
@@ -123,11 +127,15 @@ public class Player : MonoBehaviour {
     }
 
     private void DestroyPlayer() {
-        GameObject _effect = Instantiate(OnDeathEffectPrefab, transform.position, transform.rotation);
-
         GameController.activeInstance.GameOver();
+        isDead = true;
 
+        Instantiate(BrokenEffect, this.transform);
+        GameObject _effect = Instantiate(OnDeathEffectPrefab, transform.position, transform.rotation);
         Destroy(_effect, 5f);
-        Destroy(this.gameObject);
+        //Destroy(this.gameObject);
+
+        playerController.removeControll = true;
+        rb.useGravity = true;
     }
 }

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b90bb97fdb51f408866219913f3b80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  specialManeuverScore: 1000
+  specialManeuverScore: 500
   specialManeuverCollider: {fileID: 8743132206417810728}
 --- !u!65 &8743132206417810728
 BoxCollider:

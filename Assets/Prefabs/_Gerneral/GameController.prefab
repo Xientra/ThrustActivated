@@ -54,6 +54,8 @@ MonoBehaviour:
   startCamera: {fileID: 0}
   activePlayer: {fileID: 0}
   gameIsRunning: 1
+  currentScore: 0
+  hightScore: 0
   lastChunk: {fileID: 0}
   currentChunk: {fileID: 0}
   nextChunk: {fileID: 0}

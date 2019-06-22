@@ -12,9 +12,9 @@ public class Building : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         if (used == false) {
             if (other.CompareTag("Player")) {
-                GameController.activeInstance.AddScore(specialManeuverScore);
+                GameController.activeInstance.AddScore(((1f / 100f) * GameController.activeInstance.activePlayer.playerController.GetVelocity()) * specialManeuverScore);
                 used = true;
             }
         }
     }
-}
+} 

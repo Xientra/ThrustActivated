@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour {
     public GameObject playerSpawnEffectPrefab;
     private const float SPAWN_TIME = 2f;
     private const float SPAWN_EFFECT_ADDITIONAL_TIME = 2f;
+    private const float SPAWN_AREA_SIZE = 10f;
 
     public GameObject playerSpawnPosition;
 
@@ -78,8 +79,10 @@ public class GameController : MonoBehaviour {
 
 
         if (gameIsRunning == true) {
-            AddScore((50f - activePlayer.transform.position.y) * 0.0001f * Mathf.Pow(activePlayer.playerController.GetVelocity(), 2));
-            InGameUI.activeInstance.scoreText.text = Mathf.Round(currentScore).ToString();
+            AddScore(((1f / 50f) * activePlayer.transform.position.y) * 0.0001f * Mathf.Pow(activePlayer.playerController.GetVelocity(), 2));
+
+            InGameUI.activeInstance.SetScoreText(currentScore);
+            InGameUI.activeInstance.SetSpeedText(activePlayer.playerController.GetVelocity());
         }
     }
 
@@ -93,6 +96,8 @@ public class GameController : MonoBehaviour {
 
     public void SpawnPlayer() {
         if (activePlayer == false) {
+            DeleteBuildingsInSpawningArea();
+
             Player p = Instantiate(playerPrefab, playerSpawnPosition.transform.position, Quaternion.identity).GetComponent<Player>();
             PlayerController pc = p.GetComponent<PlayerController>();
 
@@ -127,6 +132,16 @@ public class GameController : MonoBehaviour {
         yield return new WaitForSeconds(SPAWN_EFFECT_ADDITIONAL_TIME);
 
         Destroy(_effect);
+    }
+
+    private void DeleteBuildingsInSpawningArea() {
+        RaycastHit[] hits = Physics.BoxCastAll(playerSpawnPosition.transform.position, new Vector3(SPAWN_AREA_SIZE / 2, SPAWN_AREA_SIZE / 2, SPAWN_AREA_SIZE / 2), Vector3.up);
+        foreach (RaycastHit rh in hits) {
+            Building possibleBuilding = rh.transform.GetComponentInParent<Building>();
+            if (possibleBuilding != null) {
+                Destroy(possibleBuilding.gameObject);
+            }
+        }
     }
 
     public void AddScore(float _amount) {

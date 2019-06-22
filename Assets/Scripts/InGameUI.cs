@@ -13,6 +13,7 @@ public class InGameUI : MonoBehaviour {
     public TextMeshProUGUI turnBackText;
     public TextMeshProUGUI dangerText;
     public TextMeshProUGUI timeRemainingText;
+    public TextMeshProUGUI speedText;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI hightscoreText;
 
@@ -34,10 +35,6 @@ public class InGameUI : MonoBehaviour {
 
     void Start() {
         SetHightscoreText(GameController.activeInstance.hightScore);
-    }
-
-    void FixedUpdate() {
-
     }
 
     public void EnableDangerZoneUI(bool _value) {
@@ -140,8 +137,16 @@ public class InGameUI : MonoBehaviour {
         return _newText;
     }
     */
-    void SetHightscoreText(float _score) {
-        hightscoreText.text = "Hightscore: \n" + Mathf.Round(_score).ToString();
+
+    public void SetSpeedText(float _speed) {
+        speedText.text = "Speed: " + Mathf.Round(_speed).ToString();
     }
 
+    public void SetScoreText(float _score) {
+        scoreText.text = "Score: " + Mathf.Round(_score).ToString();
+    }
+
+    public void SetHightscoreText(float _score) {
+        hightscoreText.text = "Hightscore: \n" + Mathf.Round(_score).ToString();
+    }
 }

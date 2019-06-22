@@ -14,7 +14,7 @@ public class Chunk : MonoBehaviour {
     private Vector3 BarrierTopOriginalScale;
     private Quaternion BarrierTopOriginalRotation;
 
-
+    public bool InstaSpawnBuildings = false;
     public bool SpawnBuildingsOnStart = true;
 
 
@@ -40,6 +40,15 @@ public class Chunk : MonoBehaviour {
         //CheckForBarrierTop();
     }
 
+    /// <summary>
+    /// Generates the Buildings based on the 'Ground' GameObject assinged to it.
+    /// </summary>
+    public void GenerateBuildings() {
+        GenerateBuildings(Ground.transform.lossyScale.x, Ground.transform.lossyScale.z, Ground.transform.position.x, Ground.transform.position.z);
+    }
+    public void GenerateBuildings(Transform _newGroundTransform) {
+        GenerateBuildings(_newGroundTransform.lossyScale.x, _newGroundTransform.lossyScale.z, _newGroundTransform.position.x, _newGroundTransform.position.z);
+    }
     public void GenerateBuildings(float _newGroundSizeX, float _newGroundSizeZ, float _newGroundOffsetX, float _newGroundOffsetZ) {
 
         GameObject _buildings = new GameObject("Buildings");
@@ -50,28 +59,38 @@ public class Chunk : MonoBehaviour {
 
         int[,] Tilemap = new int[(int)_tilesX, (int)_tilesZ];
 
-        for (int i = 0; i < _tilesX; i++) {
-            for (int ii = 0; ii < _tilesZ; ii++) {
-                MaybeCreateBuilding((i * tileSize) + (tileSize / 2) - (_newGroundSizeX / 2) + _newGroundOffsetX, (ii * tileSize) + (tileSize / 2) - (_newGroundSizeZ / 2) + _newGroundOffsetZ, _buildings.transform);
+        if (InstaSpawnBuildings == true) {
+            for (int i = 0; i < _tilesX; i++) {
+                for (int ii = 0; ii < _tilesZ; ii++) {
+                    MaybeCreateBuilding((i * tileSize) + (tileSize / 2) - (_newGroundSizeX / 2) + _newGroundOffsetX, (ii * tileSize) + (tileSize / 2) - (_newGroundSizeZ / 2) + _newGroundOffsetZ, _buildings.transform);
+                }
             }
         }
-    }
-    public void GenerateBuildings(Transform _newGroundTransform) {
-        GenerateBuildings(_newGroundTransform.lossyScale.x, _newGroundTransform.lossyScale.z, _newGroundTransform.position.x, _newGroundTransform.position.z);
-    }
-    /// <summary>
-    /// Generates the Buildings based on the 'Ground' GameObject assinged to it.
-    /// </summary>
-    public void GenerateBuildings() {
-        GenerateBuildings(Ground.transform.lossyScale.x, Ground.transform.lossyScale.z, Ground.transform.position.x, Ground.transform.position.z);
-    }
-
-    void MaybeCreateBuilding(float posX, float posZ, Transform _parent) {
-        if (Random.Range(0, 10) == 0) {
-            GameObject gO = Instantiate(Buildings[Random.Range(0, Buildings.Length)], new Vector3(posX, 0, posZ), Quaternion.Euler(0, rotations[Random.Range(0, rotations.Length)], 0), _parent);
-            gO.transform.localScale *= Random.Range(0.8f, 1.4f); 
+        else {
+            StartCoroutine(GenerateBuildingsOverTime(_tilesX, _tilesZ, _newGroundSizeX, _newGroundSizeZ, _newGroundOffsetX, _newGroundOffsetZ, _buildings.transform));
         }
     }
+
+    private IEnumerator GenerateBuildingsOverTime(float _tilesX, float _tilesZ, float _newGroundSizeX, float _newGroundSizeZ, float _newGroundOffsetX, float _newGroundOffsetZ, Transform _parent) {
+        for (int ii = 0; ii < _tilesZ; ii++) {
+
+            for (int i = 0; i < _tilesX; i++) {
+                bool b = MaybeCreateBuilding((i * tileSize) + (tileSize / 2) - (_newGroundSizeX / 2) + _newGroundOffsetX, (ii * tileSize) + (tileSize / 2) - (_newGroundSizeZ / 2) + _newGroundOffsetZ, _parent);
+                //if (b == true) yield return 0;
+            }
+            yield return null;
+        }
+    }
+
+    bool MaybeCreateBuilding(float posX, float posZ, Transform _parent) {
+        if (Random.Range(0, 10) == 0) {
+            GameObject gO = Instantiate(Buildings[Random.Range(0, Buildings.Length)], new Vector3(posX, 0, posZ), Quaternion.Euler(0, rotations[Random.Range(0, rotations.Length)], 0), _parent);
+            gO.transform.localScale *= Random.Range(0.8f, 1.4f);
+            return true;
+        }
+        return false;
+    }
+
 
     public void SetToCurrentChunk(float _delay) {
         StartCoroutine(DelaySetToCurrentChunk(_delay));

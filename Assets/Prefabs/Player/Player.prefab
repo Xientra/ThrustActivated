@@ -368,6 +368,8 @@ MonoBehaviour:
     type: 3}
   OnDeathEffectPrefab: {fileID: 8503836801271246750, guid: 3c54063c04d7a5e4ea8418715936131c,
     type: 3}
+  BrokenEffect: {fileID: 2802909221583481374, guid: fc49bf761817bf74a9656b6e1780baf4,
+    type: 3}
   GFX_Object: {fileID: 4376875276538515298}
   playerController: {fileID: 0}
   timeBeforeDeath: 3

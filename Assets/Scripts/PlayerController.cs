@@ -142,8 +142,9 @@ public class PlayerController : MonoBehaviour {
         MoveCameraAbsolute();
         RotateCamera();
 
-        RotationModification_RotateVelocity();
-
+        if (removeControll == false) {
+            RotationModification_RotateVelocity();
+        }
         //playerRigidbody.angularVelocity = Vector3.Lerp(playerRigidbody.angularVelocity, Vector3.zero, stopAngularVelocitySpeed);
 
         //Debug Stuff

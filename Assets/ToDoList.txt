@@ -1,0 +1,10 @@
+--========== ToDoList ==========--
+
+1. (x) Create a to do list 
+2. (x) Clear player spawning ground
+2. (x) Danger Zone Panel
+2. Sensetivity
+3. abillities 1: a straight up speed boost
+4. abillitie 2. stop player for a second and then start him again
+5. add more buildings
+6. add destructable glass or something

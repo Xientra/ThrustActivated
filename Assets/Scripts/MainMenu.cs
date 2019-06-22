@@ -2,7 +2,7 @@
 
 public class MainMenu : MonoBehaviour {
 
-    public GameObject[] UI_Elements;
+    public GameObject Content;
 
     //public void Update() {
     //    if (Input.GetKeyDown(KeyCode.Escape)) {
@@ -14,6 +14,7 @@ public class MainMenu : MonoBehaviour {
         GameController.activeInstance.SpawnPlayer();
         EnableUI(false);
         InGameUI.activeInstance.scoreText.gameObject.SetActive(true);
+        InGameUI.activeInstance.speedText.gameObject.SetActive(true);
         InGameUI.activeInstance.hightscoreText.gameObject.SetActive(false);
     }
 
@@ -22,8 +23,6 @@ public class MainMenu : MonoBehaviour {
     }
 
     private void EnableUI(bool _value) {
-        foreach (GameObject go in UI_Elements) {
-            go.SetActive(_value);
-        }
+        Content.SetActive(_value);
     }
 }
