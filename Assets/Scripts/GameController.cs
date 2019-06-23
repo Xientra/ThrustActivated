@@ -15,6 +15,8 @@ public class GameController : MonoBehaviour {
 
     public GameObject playerSpawnPosition;
 
+    private const float RECOMENDED_SPEED = 170f;
+
     [Space(10)]
 
     public GameObject startCamera;
@@ -28,6 +30,8 @@ public class GameController : MonoBehaviour {
 
     private const float TIME_UNTILL_SCENE_RELOAD = 3f;
 
+    public float sensetivity = 1f;
+
     [Space(10)]
 
     //public GameObject[] Chunks;
@@ -40,6 +44,7 @@ public class GameController : MonoBehaviour {
             activeInstance = this;
 
             hightScore = PlayerPrefs.GetFloat("hightscore");
+            sensetivity = PlayerPrefs.GetFloat("sensetivity");
         }
         else {
             Destroy(this.gameObject);
@@ -48,10 +53,6 @@ public class GameController : MonoBehaviour {
 
     void Start() {
         nextChunk = SpawnNewChunk();
-    }
-
-    void Update() {
-
     }
 
     private void FixedUpdate() {
@@ -82,7 +83,7 @@ public class GameController : MonoBehaviour {
             AddScore(((1f / 50f) * activePlayer.transform.position.y) * 0.0001f * Mathf.Pow(activePlayer.playerController.GetVelocity(), 2));
 
             InGameUI.activeInstance.SetScoreText(currentScore);
-            InGameUI.activeInstance.SetSpeedText(activePlayer.playerController.GetVelocity());
+            InGameUI.activeInstance.SetSpeedText(activePlayer.playerController.GetVelocity(), (activePlayer.playerController.GetVelocity() > RECOMENDED_SPEED));
         }
     }
 
@@ -162,5 +163,11 @@ public class GameController : MonoBehaviour {
     private IEnumerator ReloadScene() {
         yield return new WaitForSeconds(TIME_UNTILL_SCENE_RELOAD);
         SceneManager.LoadScene("MainScene");
+    }
+
+    public void Save() {
+        PlayerPrefs.SetFloat("hightscore", hightScore);
+        PlayerPrefs.SetFloat("sensetivity", sensetivity);
+        PlayerPrefs.Save();
     }
 }

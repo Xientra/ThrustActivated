@@ -3,8 +3,13 @@
 1. (x) Create a to do list 
 2. (x) Clear player spawning ground
 2. (x) Danger Zone Panel
-2. Sensetivity
-3. abillities 1: a straight up speed boost
-4. abillitie 2. stop player for a second and then start him again
+2. (x) Sensetivity
+3. (x) abillities 1: a straight up speed boost
+4. (x) abillitie 2. stop player for a second and then start him again
+4. (x) Speed recomendation
+5. (nope) PlayerObject own crosshair
 5. add more buildings
-6. add destructable glass or something
+6. show points of special manuvers
+7. do decent colliders
+8. do different points for different parts of the ship?
+6. add destructable glass or sth

@@ -23,6 +23,7 @@ public class InGameUI : MonoBehaviour {
     private const float TURN_BACK_SHOW_SPEED = 0.05f;
 
     //private const string DANGER = "DANGER";
+    private const string SPEED_WARING = "Exceeded recomended Speed";
 
     private void Awake() {
         if (activeInstance == null) {
@@ -138,8 +139,13 @@ public class InGameUI : MonoBehaviour {
     }
     */
 
-    public void SetSpeedText(float _speed) {
-        speedText.text = "Speed: " + Mathf.Round(_speed).ToString();
+    public void SetSpeedText(float _speed, bool showDangerWarning) {
+        if (showDangerWarning == true) {
+            speedText.text = "Speed: " + Mathf.Round(_speed).ToString() + "\n" + SPEED_WARING;
+        }
+        else {
+            speedText.text = "Speed: " + Mathf.Round(_speed).ToString();
+        }
     }
 
     public void SetScoreText(float _score) {

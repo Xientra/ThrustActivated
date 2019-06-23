@@ -16,7 +16,6 @@ public class Player : MonoBehaviour {
     Rigidbody rb;
     private Vector3 lastPosition;
     private Vector3 lastVelocity;
-    private float maxSpeed;
     private const float SURVIVALABLE_MAX_SPEED_PERCENT_DROP = 0.5f;
 
     private bool flyingBackwarts = false;
@@ -52,7 +51,7 @@ public class Player : MonoBehaviour {
             }
             else InGameUI.activeInstance.timeRemainingText.text = "0,00";
 
-            if (Time.time > deathTimeStamp) {
+            if (Time.time > deathTimeStamp && isDead == false) {
                 DestroyPlayer();
             }
         }
@@ -70,21 +69,13 @@ public class Player : MonoBehaviour {
                 InGameUI.activeInstance.HideTurnBackText();
             }
 
-            //if (lastVelocity.magnitude > 40 && rb.velocity.magnitude < 10) {
-            //    DestroyPlayer();
-            //}
-            //if (rb.velocity.magnitude > 20) {
-            if (rb.velocity.magnitude < SURVIVALABLE_MAX_SPEED_PERCENT_DROP * maxSpeed) {
+            if (rb.velocity.magnitude < SURVIVALABLE_MAX_SPEED_PERCENT_DROP * playerController.GetMaxSpeed()) {
                 DestroyPlayer();
             }
-            //}
         }
 
         lastVelocity = rb.velocity;
         lastPosition = transform.position;
-
-        if (rb.velocity.magnitude > maxSpeed)
-            maxSpeed = rb.velocity.magnitude;
     }
 
     private IEnumerator StarShowingTurnBackText() {
