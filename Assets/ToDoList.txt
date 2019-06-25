@@ -8,8 +8,11 @@
 4. (x) abillitie 2. stop player for a second and then start him again
 4. (x) Speed recomendation
 5. (nope) PlayerObject own crosshair
-5. add more buildings
+5. (x) add more buildings
+7. (x) do decent colliders
 6. show points of special manuvers
-7. do decent colliders
-8. do different points for different parts of the ship?
-6. add destructable glass or sth
+8. (no?) do different points for different parts of the ship
+9. let the sun set
+10. lights, lots of light, LOADS OF THEM,  A L L  O F  T H E M 
+
+at some point. add destructable glass or sth

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Building : MonoBehaviour {
 
-    public float specialManeuverScore;
     public Collider specialManeuverCollider;
+    public float specialManeuverScore;
 
     private bool used = false;
 

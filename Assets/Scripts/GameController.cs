@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour {
 
     public static GameController activeInstance;
 
+    public Light sun;
     public GameObject chunkPrefab;
     public GameObject playerPrefab;
     public GameObject playerSpawnEffectPrefab;
@@ -31,6 +32,8 @@ public class GameController : MonoBehaviour {
     private const float TIME_UNTILL_SCENE_RELOAD = 3f;
 
     public float sensetivity = 1f;
+    public float sunSpeed = 0.01f;
+    public bool nightTime = false;
 
     [Space(10)]
 
@@ -84,6 +87,21 @@ public class GameController : MonoBehaviour {
 
             InGameUI.activeInstance.SetScoreText(currentScore);
             InGameUI.activeInstance.SetSpeedText(activePlayer.playerController.GetVelocity(), (activePlayer.playerController.GetVelocity() > RECOMENDED_SPEED));
+        }
+
+        if (gameIsRunning == true) {
+            sun.transform.Rotate(Vector3.right, sunSpeed);
+
+            if (sun.transform.localRotation.eulerAngles.x > 180 && nightTime == false) { //turn on the lights
+                activePlayer.spotLight.gameObject.SetActive(true);
+
+                nightTime = true;
+            }
+            else if (nightTime == true) { //turn offf the lights
+                activePlayer.spotLight.gameObject.SetActive(false);
+
+                nightTime = false;
+            }
         }
     }
 

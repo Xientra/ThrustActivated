@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
     public GameObject BrokenEffect;
 
     public GameObject GFX_Object;
+    public Light spotLight;
 
     [HideInInspector]
     public PlayerController playerController;

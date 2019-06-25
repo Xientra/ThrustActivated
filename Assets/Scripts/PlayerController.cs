@@ -44,10 +44,10 @@ public class PlayerController : MonoBehaviour {
     [Header("Camera: ")]
 
     public GameObject CameraAnchor;
-    private Camera playerCamera;
+    public Camera playerCamera;
 
     [Range(0f, 1f)]
-    public float positionChangeSpeed = 0.4f;
+    public float positionChangeSpeed = 1f;
     [Range(0f, 1f)]
     public float rotationChangeSpeed = 0.6f;
     [Range(0f, 1f)]
@@ -157,6 +157,9 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.H)) {
             StopPlayer();
         }
+
+
+        //MoveCamera();
     }
 
     void FixedUpdate() {
@@ -173,7 +176,7 @@ public class PlayerController : MonoBehaviour {
             Boost();
         }
 
-        MoveCamera();
+        MoveCamera(); //not done in Update()
         RotateCamera();
         ChangeCameraFOV();
 
