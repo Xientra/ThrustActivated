@@ -5,10 +5,14 @@ using System.Collections.Generic;
 [RequireComponent(typeof(PlayerController))]
 public class PlayerShoot : MonoBehaviour {
 
+    public PlayerController playerController;
+
     public GameObject[] LaserOriginPoints;
     public GameObject LaserHitEffectPrefab;
 
     private void Start() {
+        playerController = GetComponent<PlayerController>();
+
         foreach (GameObject los in LaserOriginPoints) {
             los.SetActive(false);
         }
@@ -17,7 +21,7 @@ public class PlayerShoot : MonoBehaviour {
     public void Shoot() {
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity)) {
+        if (Physics.Raycast(playerController.playerCamera.transform.position, transform.forward, out hit, Mathf.Infinity)) {
 
             foreach (GameObject los in LaserOriginPoints) {
                 los.GetComponent<LineRenderer>().SetPosition(0, los.transform.position);
@@ -40,7 +44,7 @@ public class PlayerShoot : MonoBehaviour {
     }
 
     IEnumerator DeactivateLaser(GameObject go) {
-        yield return 0;
+        yield return new WaitForSeconds(0.05f);
         go.SetActive(false);
     }
 }
