@@ -46,6 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   specialManeuverCollider: {fileID: 0}
   specialManeuverScore: 0
+  lights: []
+  lit: 0
+  lightingUpSpeedMin: 0.2
+  lightingUpSpeedMax: 1.5
 --- !u!1 &3831209304756200853
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,7 +109,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f1c8864b5c20cd84d921a3fc7cac4162, type: 2}
+  - {fileID: 2100000, guid: 171d53a0d5345b145a455169aba65828, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

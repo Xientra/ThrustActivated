@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +17,9 @@ public class InGameUI : MonoBehaviour {
     public TextMeshProUGUI speedText;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI hightscoreText;
+    public TextMeshProUGUI currentlyPlayingSongText;
+
+    public TextMeshProUGUI specialPointsTextExample;
 
     private int turnBackStringIndex = 0;
     private bool turnBackDirection = true;
@@ -46,6 +50,13 @@ public class InGameUI : MonoBehaviour {
         if (_value == true) {
             HideTurnBackText();
         }
+    }
+
+    public void ShowInGameUI(bool value) {
+        scoreText.gameObject.SetActive(value);
+        speedText.gameObject.SetActive(value);
+        hightscoreText.gameObject.SetActive(!value);
+        currentlyPlayingSongText.gameObject.SetActive(value);
     }
 
     public void ShowTurnBackText() {
@@ -154,5 +165,30 @@ public class InGameUI : MonoBehaviour {
 
     public void SetHightscoreText(float _score) {
         hightscoreText.text = "Hightscore: \n" + Mathf.Round(_score).ToString();
+    }
+
+    public void AddSpecialManuverPoints(float points) {
+        TextMeshProUGUI txt = Instantiate(specialPointsTextExample, this.transform);
+        txt.text = "+" + points.ToString();
+        txt.gameObject.SetActive(true);
+        StartCoroutine(MovePointsText(txt));
+
+    }
+
+    private const float SPECIAL_POINTS_MOVE_DISTANCE = 50f;
+    private const float SPECIAL_POINTS_MOVE_STEPS = 30f;
+    private const float SPECIAL_POINTS_MOVE_TIME = 0.5f;
+    private const float SPECIAL_POINTS_NOTMOVE_TIME = 0.5f;
+
+    private IEnumerator MovePointsText(TextMeshProUGUI _text) {
+        _text.transform.Translate(0, -SPECIAL_POINTS_MOVE_DISTANCE, 0);
+
+        for (int i = 0; i < SPECIAL_POINTS_MOVE_DISTANCE; i++) {
+
+            _text.transform.Translate(0, SPECIAL_POINTS_MOVE_DISTANCE * (1 / SPECIAL_POINTS_MOVE_STEPS), 0);
+
+            yield return new WaitForSeconds(SPECIAL_POINTS_MOVE_TIME / SPECIAL_POINTS_MOVE_DISTANCE);
+        }
+        Destroy(_text.gameObject, SPECIAL_POINTS_NOTMOVE_TIME);
     }
 }

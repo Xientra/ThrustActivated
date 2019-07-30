@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   specialManeuverCollider: {fileID: 7127875607781965629}
-  specialManeuverScore: 750
+  specialManeuverScore: 600
 --- !u!65 &7127875607781965629
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -121,7 +121,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f1c8864b5c20cd84d921a3fc7cac4162, type: 2}
+  - {fileID: 2100000, guid: e7b3442b3430c5645a08b0edbd0bdd09, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour {
     public static GameController activeInstance;
 
     public Light sun;
+    public LightManager lightManager;
     public GameObject chunkPrefab;
     public GameObject playerPrefab;
     public GameObject playerSpawnEffectPrefab;
@@ -29,11 +30,15 @@ public class GameController : MonoBehaviour {
     private float currentScore = 0f;
     public float hightScore;
 
-    private const float TIME_UNTILL_SCENE_RELOAD = 3f;
+    public bool musicIsMuted = false;
+
+    public const float TIME_UNTILL_SCENE_RELOAD = 3f;
 
     public float sensetivity = 1f;
     public float sunSpeed = 0.01f;
     public bool nightTime = false;
+
+    private const float NIGHT_TIME_ROTATION = 180f;
 
     [Space(10)]
 
@@ -46,8 +51,7 @@ public class GameController : MonoBehaviour {
         if (activeInstance == null) {
             activeInstance = this;
 
-            hightScore = PlayerPrefs.GetFloat("hightscore");
-            sensetivity = PlayerPrefs.GetFloat("sensetivity");
+            Load();
         }
         else {
             Destroy(this.gameObject);
@@ -56,6 +60,7 @@ public class GameController : MonoBehaviour {
 
     void Start() {
         nextChunk = SpawnNewChunk();
+        gameIsRunning = false;
     }
 
     private void FixedUpdate() {
@@ -92,13 +97,17 @@ public class GameController : MonoBehaviour {
         if (gameIsRunning == true) {
             sun.transform.Rotate(Vector3.right, sunSpeed);
 
-            if (sun.transform.localRotation.eulerAngles.x > 180 && nightTime == false) { //turn on the lights
+            if (sun.transform.localRotation.eulerAngles.x > NIGHT_TIME_ROTATION && nightTime == false) { //turn on the lights
                 activePlayer.spotLight.gameObject.SetActive(true);
+
+                lightManager.FadeInLights();
 
                 nightTime = true;
             }
-            else if (nightTime == true) { //turn offf the lights
+            else if (sun.transform.localRotation.eulerAngles.x < NIGHT_TIME_ROTATION && nightTime == true) { //turn off the lights
                 activePlayer.spotLight.gameObject.SetActive(false);
+
+                lightManager.FadeOutLights();
 
                 nightTime = false;
             }
@@ -186,6 +195,13 @@ public class GameController : MonoBehaviour {
     public void Save() {
         PlayerPrefs.SetFloat("hightscore", hightScore);
         PlayerPrefs.SetFloat("sensetivity", sensetivity);
+        PlayerPrefs.SetString("MusicIsMuted", musicIsMuted.ToString());
         PlayerPrefs.Save();
+    }
+
+    public void Load() {
+        hightScore = PlayerPrefs.GetFloat("hightscore");
+        sensetivity = PlayerPrefs.GetFloat("sensetivity");
+        musicIsMuted = (PlayerPrefs.GetString("MusicIsMuted").ToLower() == "True".ToLower());
     }
 }

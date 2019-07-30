@@ -22,7 +22,7 @@ public class Player : MonoBehaviour {
     private bool flyingBackwarts = false;
 
     bool inSaveZone = true;
-    private bool isDead = false;
+    public bool isDead = false;
 
     public float timeBeforeDeath = 3f;
     float deathTimeStamp;

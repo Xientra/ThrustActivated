@@ -10,6 +10,10 @@ public class MainMenu : MonoBehaviour {
 
     public Slider SensetivitySlider;
     public TextMeshProUGUI SensetivityText;
+    public Toggle StartAtSunsetToggle;
+    public Toggle MusicToggle;
+    private const float HIGHTSCORE_FOR_SUNSET_START = 10000;
+    private const float SUNSET_ROTATION = 110f;
 
     void Awake() {
         if (activeInstance == null) {
@@ -22,13 +26,21 @@ public class MainMenu : MonoBehaviour {
 
     void Start() {
         SetSensetivityElements();
+        ShowMainMenu(true);
     }
 
     public void ShowMainMenu(bool _value) {
         Content.SetActive(_value);
-        InGameUI.activeInstance.scoreText.gameObject.SetActive(!_value);
-        InGameUI.activeInstance.speedText.gameObject.SetActive(!_value);
-        InGameUI.activeInstance.hightscoreText.gameObject.SetActive(_value);
+        InGameUI.activeInstance.ShowInGameUI(!_value);
+
+        if (GameController.activeInstance.hightScore > HIGHTSCORE_FOR_SUNSET_START) {
+            StartAtSunsetToggle.gameObject.SetActive(true);
+        }
+        else {
+            StartAtSunsetToggle.gameObject.SetActive(false);
+        }
+
+        MusicToggle.isOn = GameController.activeInstance.musicIsMuted;
     }
 
     public void Btn_Start() {
@@ -56,5 +68,19 @@ public class MainMenu : MonoBehaviour {
         PlayerPrefs.Save();
 
         SetSensetivityElements();
+    }
+
+    public void OnValueChange_SunsetStartToggle() {
+        if (StartAtSunsetToggle.isOn == true) {
+            GameController.activeInstance.sun.transform.Rotate(Vector3.right, SUNSET_ROTATION);
+        }
+        else {
+            GameController.activeInstance.sun.transform.Rotate(Vector3.right, -SUNSET_ROTATION);
+        }
+    }
+
+    public void OnValueChange_MusicToggle() {
+        GameController.activeInstance.musicIsMuted = MusicToggle.isOn;
+        GameController.activeInstance.Save();
     }
 }

@@ -44,7 +44,15 @@ public class PlayerShoot : MonoBehaviour {
     }
 
     IEnumerator DeactivateLaser(GameObject go) {
+        InvokeRepeating("UpdatePlayerLaser", 0, 0.02f);
         yield return new WaitForSeconds(0.05f);
+        CancelInvoke("UpdatePlayerLaser");
         go.SetActive(false);
+    }
+
+    private void UpdatePlayerLaser() {
+        foreach (GameObject los in LaserOriginPoints) {
+            los.GetComponent<LineRenderer>().SetPosition(0, los.transform.position);
+        }
     }
 }

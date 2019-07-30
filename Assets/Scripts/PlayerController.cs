@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
     public PlayerShoot playerShootScript;
 
     public bool removeControll = false;
+    private bool releaseRotation = false;
 
     [Header("Movement: ")]
 
@@ -45,6 +46,8 @@ public class PlayerController : MonoBehaviour {
 
     public GameObject CameraAnchor;
     public Camera playerCamera;
+    private float playerCameraDistanceMultiplier = 1f;
+    private Vector3 playerCameraOriginalPosition;
 
     [Range(0f, 1f)]
     public float positionChangeSpeed = 1f;
@@ -57,15 +60,9 @@ public class PlayerController : MonoBehaviour {
 
     private bool rotateCamera = false;
     private Quaternion additionalCameraRotation = Quaternion.identity;
-
-    [Header("Debug: ")]
-
-    public Vector3 SpeedDebug;
-    public float totalSpeedDebug;
-
-    private void Awake() { // put this in gameController later
-        //Time.fixedDeltaTime = 0.01f;
-    }
+    private float mouseWheelInput;
+    public float scrollSpeed = 100f;
+    public Vector2 scrollBounds = new Vector2(1, 10f);
 
     void Start() {
         rb = GetComponent<Rigidbody>();
@@ -75,91 +72,94 @@ public class PlayerController : MonoBehaviour {
 
         CameraAnchor.transform.parent = null;
         playerCamera = CameraAnchor.GetComponentInChildren<Camera>();
+        playerCameraOriginalPosition = playerCamera.transform.localPosition;
     }
 
     void Update() {
+        float zRot = 0;
+        addingRotation = Quaternion.identity;
+
+
         if (removeControll == false) {
+            if (releaseRotation == false) {
+                /*=====Movement Input=====*/
+                if (Input.GetKey(KeyCode.W)) {
+                    thrust = new Vector3(thrust.x, thrust.y, forwardThrustPower);
+                }
+                //else if (Input.GetKey(KeyCode.S)) {
+                //    thrust = new Vector3(thrust.x, thrust.y, backwardThrustPower);
+                //}
+                else {
+                    thrust = new Vector3(thrust.x, thrust.y, 0);
+                }
+                //if (Input.GetKey(KeyCode.A)) {
+                //    thrust = new Vector3(-sidewayThrustpower, thrust.y, thrust.z);
+                //}
+                //else if (Input.GetKey(KeyCode.D)) {
+                //    thrust = new Vector3(sidewayThrustpower, thrust.y, thrust.z);
+                //}
+                //else {
+                //    thrust = new Vector3(0, thrust.y, thrust.z);
+                //}
 
-            /*=====Movement Input=====*/
-            if (Input.GetKey(KeyCode.W)) {
-                thrust = new Vector3(thrust.x, thrust.y, forwardThrustPower);
-            }
-            else if (Input.GetKey(KeyCode.S)) {
-                thrust = new Vector3(thrust.x, thrust.y, backwardThrustPower);
-            }
-            else {
-                thrust = new Vector3(thrust.x, thrust.y, 0);
-            }
 
-            if (Input.GetKey(KeyCode.A)) {
-                thrust = new Vector3(-sidewayThrustpower, thrust.y, thrust.z);
-            }
-            else if (Input.GetKey(KeyCode.D)) {
-                thrust = new Vector3(sidewayThrustpower, thrust.y, thrust.z);
-            }
-            else {
-                thrust = new Vector3(0, thrust.y, thrust.z);
-            }
-        
-            /*=====Rotation Input=====*/
-            float zRot = 0;
-            if (Input.GetKey(KeyCode.Q)) {
+                /*=====Rotation Input=====*/
+                if (Input.GetKey(KeyCode.Q)) {
 
-                zRot = 1;
+                    zRot = 1;
 
-                addingRotation = Quaternion.Euler(addingRotation.x, addingRotation.y, -rotationSpeed);
-            }
-            if (Input.GetKey(KeyCode.E)) {
+                    addingRotation = Quaternion.Euler(addingRotation.x, addingRotation.y, -rotationSpeed);
+                }
+                if (Input.GetKey(KeyCode.E)) {
 
-                zRot = -1;
+                    zRot = -1;
 
-                addingRotation = Quaternion.Euler(addingRotation.x, addingRotation.y, rotationSpeed);
-            }
-            addingRotation = Quaternion.Euler(-(Input.GetAxisRaw("Mouse Y")) * rotationSpeed * GameController.activeInstance.sensetivity, (Input.GetAxisRaw("Mouse X")) * rotationSpeed * GameController.activeInstance.sensetivity, zRot * rotationSpeed);
+                    addingRotation = Quaternion.Euler(addingRotation.x, addingRotation.y, rotationSpeed);
+                }
+                //Mouse Input
+                addingRotation = Quaternion.Euler(-(Input.GetAxisRaw("Mouse Y")) * rotationSpeed * GameController.activeInstance.sensetivity, (Input.GetAxisRaw("Mouse X")) * rotationSpeed * GameController.activeInstance.sensetivity, zRot * rotationSpeed);
+                mouseWheelInput = Input.GetAxis("Mouse ScrollWheel");
 
-            /*=====Abillity and Shoot Input=====*/
-            if (stoppingASecond == false) {
-                if (Input.GetKeyDown(KeyCode.LeftShift)) {
-                    if (rb.velocity.magnitude < maxBoostSpeed && boosting == false) {
-                        toAchieveVelocity = rb.velocity.normalized * (rb.velocity.magnitude + 20);
-                        boosting = true;
+
+                /*=====Abillity and Shoot Input=====*/
+                if (stoppingASecond == false) {
+                    if (Input.GetKeyDown(KeyCode.LeftShift)) {
+                        if (rb.velocity.magnitude < maxBoostSpeed && boosting == false) {
+                            toAchieveVelocity = rb.velocity.normalized * (rb.velocity.magnitude + 20);
+                            boosting = true;
+                        }
+                    }
+                    if (Input.GetKeyDown(KeyCode.Space)) {
+                        StopASecond();
                     }
                 }
-                if (Input.GetKeyDown(KeyCode.Space)) {
-                    StopASecond();
+                if (Input.GetMouseButtonDown(0)) {
+                    if (playerShootScript != null) {
+                        playerShootScript.Shoot();
+                    }
                 }
             }
-            if (Input.GetMouseButtonDown(0)) {
-                if (playerShootScript != null) {
-                    playerShootScript.Shoot();
-                }
+
+            /*=====Free Camera Input=====*/
+            if (Input.GetKey(KeyCode.LeftControl)) {
+                rotateCamera = true;
+            }
+            else {
+                rotateCamera = false;
+            }
+            if (Input.GetKeyDown(KeyCode.R)) {
+                StartCoroutine(ResetCamera());
+
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                releaseRotation = false;
+            }
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                releaseRotation = true;
             }
         }
-
-        /*=====Other Input=====*/
-        if (Input.GetKey(KeyCode.LeftControl)) {
-            rotateCamera = true;
-        }
-        else {
-            rotateCamera = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.R)) {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            removeControll = false;
-        }
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            removeControll = true;
-        }
-        if (Input.GetKeyDown(KeyCode.H)) {
-            StopPlayer();
-        }
-
-
-        //MoveCamera();
     }
 
     void FixedUpdate() {
@@ -168,6 +168,7 @@ public class PlayerController : MonoBehaviour {
         }
         if (rotateCamera == true) {
             additionalCameraRotation *= addingRotation;
+            ScrollCamera();
         }
         else {
             RotatePlayer();
@@ -180,14 +181,7 @@ public class PlayerController : MonoBehaviour {
         RotateCamera();
         ChangeCameraFOV();
 
-        if (removeControll == false) {
-            RotationModification_RotateVelocity();
-        }
-
-
-        //Debug Stuff
-        SpeedDebug = rb.velocity;
-        totalSpeedDebug = rb.velocity.magnitude;
+        if (removeControll == false) RotationModification_RotateVelocity();
     }
 
     private void MovePlayer() {
@@ -218,9 +212,27 @@ public class PlayerController : MonoBehaviour {
         CameraAnchor.transform.rotation = Quaternion.Slerp(CameraAnchor.transform.rotation, transform.rotation * additionalCameraRotation, rotationChangeSpeed);
     }
 
-    public void StopPlayer() {
-        rb.velocity = Vector3.zero;
+    const float CAMERA_RESET_STEP = 0.02f;
+    private const float CAMERA_RESET_SPEED = 0.05f;
+
+    private IEnumerator ResetCamera() {
+        float progress = 0f;
+        while (progress < 1) {
+            progress += CAMERA_RESET_STEP;
+            additionalCameraRotation = Quaternion.Slerp(additionalCameraRotation, Quaternion.identity, progress);
+            playerCameraDistanceMultiplier = 1f;
+            playerCamera.transform.localPosition = Vector3.Slerp(playerCamera.transform.localPosition, playerCameraOriginalPosition, progress);
+            yield return new WaitForSeconds(CAMERA_RESET_STEP);
+        }
     }
+    private void ScrollCamera() {
+        playerCameraDistanceMultiplier += mouseWheelInput * scrollSpeed;
+        playerCameraDistanceMultiplier = Mathf.Clamp(playerCameraDistanceMultiplier, scrollBounds.x, scrollBounds.y);
+        playerCamera.transform.localPosition = playerCamera.transform.localPosition.normalized * playerCameraOriginalPosition.magnitude * playerCameraDistanceMultiplier;
+
+        //playerCamera.transform.localPosition += playerCamera.transform.localPosition.normalized * mouseWheelInput * scrollSpeed;
+    }
+
 
     #region Rotation Modifications
 

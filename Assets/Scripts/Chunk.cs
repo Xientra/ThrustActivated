@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Chunk : MonoBehaviour {
 
-    public GameObject[] Buildings;
+    public GameObject[] BuildingPrefabs;
+    public List<Building> buildings;
+    public List<Light> everyLight;
 
     public GameObject Ground;
     public GameObject Collider;
@@ -84,8 +87,11 @@ public class Chunk : MonoBehaviour {
 
     bool MaybeCreateBuilding(float posX, float posZ, Transform _parent) {
         if (Random.Range(0, 10) == 0) {
-            GameObject gO = Instantiate(Buildings[Random.Range(0, Buildings.Length)], new Vector3(posX, 0, posZ), Quaternion.Euler(0, rotations[Random.Range(0, rotations.Length)], 0), _parent);
+            GameObject gO = Instantiate(BuildingPrefabs[Random.Range(0, BuildingPrefabs.Length)], new Vector3(posX, 0, posZ), Quaternion.Euler(0, rotations[Random.Range(0, rotations.Length)], 0), _parent);
             gO.transform.localScale *= Random.Range(0.8f, 1.4f);
+
+            buildings.Add(gO.GetComponent<Building>());
+            //everyLight.AddRange(gO.GetComponent<Building>().lights);
             return true;
         }
         return false;
@@ -170,6 +176,18 @@ public class Chunk : MonoBehaviour {
             }
             else {
                 BarrierTop.SetActive(false);
+            }
+        }
+    }
+
+    public void EnableLights(bool _value) {
+        //foreach (Building b in _chunk.buildings) {
+        //    b.SetLit(_value);
+        //}
+
+        foreach (Light l in everyLight) {
+            if (l != null) {
+                l.gameObject.SetActive(_value);
             }
         }
     }

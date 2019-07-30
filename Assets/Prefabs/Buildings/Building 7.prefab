@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3091505413891214168}
+  - component: {fileID: 7559468115347898646}
   - component: {fileID: 3261419833595720903}
   m_Layer: 2
   m_Name: Building 7
@@ -32,6 +33,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7559468115347898646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3091505413891214175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8b90bb97fdb51f408866219913f3b80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  specialManeuverCollider: {fileID: 3261419833595720903}
+  specialManeuverScore: 500
+  lights: []
+  lit: 0
+  lightingUpSpeedMin: 0.2
+  lightingUpSpeedMax: 1.5
 --- !u!136 &3261419833595720903
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -40,7 +59,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3091505413891214175}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 3
   m_Height: 8
@@ -107,7 +126,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f1c8864b5c20cd84d921a3fc7cac4162, type: 2}
+  - {fileID: 2100000, guid: 87a4c71f1f7dd4d4c83d6025f83bfd28, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

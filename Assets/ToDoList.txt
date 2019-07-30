@@ -10,9 +10,19 @@
 5. (nope) PlayerObject own crosshair
 5. (x) add more buildings
 7. (x) do decent colliders
-6. show points of special manuvers
+6. (x) show points of special manuvers
 8. (no?) do different points for different parts of the ship
-9. let the sun set
-10. lights, lots of light, LOADS OF THEM,  A L L  O F  T H E M 
+9. (x) let the sun set
+10. (x) lights, lots of light, LOADS OF THEM,  A L L  O F  T H E M 
+11. (x) fix player laser
+12. (x)add "Start at sunset"
+13. (never) fix UI
+14. (x) add camera reset button
+15. (no) add decelleration
+15. (x) improve the controll removal on ESC and death
+16. (x) add Music
+17. (x) add "currently playing
+18. (x) fix Fade in and Fade Out
+19. (x) make Icon
 
 at some point. add destructable glass or sth
