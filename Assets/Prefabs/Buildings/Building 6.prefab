@@ -41,7 +41,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 138264172583757623}
-  m_Mesh: {fileID: -3383503825467850782, guid: 8790750b4a75c2c4cad623686eff2070, type: 3}
+  m_Mesh: {fileID: -9113431488192808082, guid: 8790750b4a75c2c4cad623686eff2070, type: 3}
 --- !u!23 &5364037181929182453
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -91,10 +91,10 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 8419688398492738961, guid: 8790750b4a75c2c4cad623686eff2070, type: 3}
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4441745389392064449, guid: 8790750b4a75c2c4cad623686eff2070, type: 3}
 --- !u!64 &1174996374174544778
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -105,10 +105,10 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: -638824199015663917, guid: 8790750b4a75c2c4cad623686eff2070, type: 3}
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -497626350265082139, guid: 8790750b4a75c2c4cad623686eff2070, type: 3}
 --- !u!1 &4772644936520122251
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,10 +156,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   specialManeuverCollider: {fileID: 7853935434971493463}
   specialManeuverScore: 500
-  lights: []
-  lit: 0
-  lightingUpSpeedMin: 0.2
-  lightingUpSpeedMax: 1.5
 --- !u!65 &7853935434971493463
 BoxCollider:
   m_ObjectHideFlags: 0

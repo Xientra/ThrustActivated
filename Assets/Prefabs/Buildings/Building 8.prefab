@@ -41,7 +41,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3057767962082383489}
-  m_Mesh: {fileID: 706652748704174534, guid: 8790750b4a75c2c4cad623686eff2070, type: 3}
+  m_Mesh: {fileID: 8656007825006816468, guid: 8790750b4a75c2c4cad623686eff2070, type: 3}
 --- !u!23 &156480950252617269
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -91,10 +91,10 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 1132991731917236261, guid: 8790750b4a75c2c4cad623686eff2070, type: 3}
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 9092293147366523351, guid: 8790750b4a75c2c4cad623686eff2070, type: 3}
 --- !u!65 &6457122136871339222
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -154,7 +154,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   specialManeuverCollider: {fileID: 0}
   specialManeuverScore: 0
-  lights: []
-  lit: 0
-  lightingUpSpeedMin: 0.2
-  lightingUpSpeedMax: 1.5
