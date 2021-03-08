@@ -10,9 +10,10 @@ public class MainMenu : MonoBehaviour {
 
     public Slider SensetivitySlider;
     public TextMeshProUGUI SensetivityText;
+    public TMP_InputField SensetivityInputField;
     public Toggle StartAtSunsetToggle;
     public Toggle MusicToggle;
-    private const float HIGHTSCORE_FOR_SUNSET_START = 10000;
+    private const float HIGHTSCORE_FOR_SUNSET_START = 5000;
     private const float SUNSET_ROTATION = 110f;
 
     void Awake() {
@@ -59,13 +60,27 @@ public class MainMenu : MonoBehaviour {
         int _l = _sens.Length;
         if (_l > 4) _l = 4;
 
-        SensetivityText.text = "Sensetivity: " + _sens.Substring(0, _l);
+        SensetivityInputField.text = _sens.Substring(0, _l);
+        //SensetivityText.text = "Sensetivity: " + _sens.Substring(0, _l);
     }
 
     public void OnValueChange_SensetivitySlider() {
         GameController.activeInstance.sensetivity = SensetivitySlider.value;
         PlayerPrefs.SetFloat("sensetivity", GameController.activeInstance.sensetivity);
         PlayerPrefs.Save();
+
+        SetSensetivityElements();
+    }
+
+    public void OnValueChange_SensetivityInputField()
+    {
+        float s = float.Parse(SensetivityInputField.text.Replace('.', ','));
+        s = Mathf.Clamp(s, SensetivitySlider.minValue, SensetivitySlider.maxValue);
+
+        GameController.activeInstance.sensetivity = s;
+        PlayerPrefs.SetFloat("sensetivity", GameController.activeInstance.sensetivity);
+        PlayerPrefs.Save();
+
 
         SetSensetivityElements();
     }

@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour {
     public GameObject chunkPrefab;
     public GameObject playerPrefab;
     public GameObject playerSpawnEffectPrefab;
-    private const float SPAWN_TIME = 2f;
+    private const float SPAWN_TIME = 1f;
     private const float SPAWN_EFFECT_ADDITIONAL_TIME = 2f;
     private const float SPAWN_AREA_SIZE = 10f;
 
@@ -88,7 +88,7 @@ public class GameController : MonoBehaviour {
 
 
         if (gameIsRunning == true) {
-            AddScore(((1f / 50f) * activePlayer.transform.position.y) * 0.0001f * Mathf.Pow(activePlayer.playerController.GetVelocity(), 2));
+            AddScore(0.0001f * Mathf.Pow(activePlayer.playerController.GetVelocity(), 2));
 
             InGameUI.activeInstance.SetScoreText(currentScore);
             InGameUI.activeInstance.SetSpeedText(activePlayer.playerController.GetVelocity(), (activePlayer.playerController.GetVelocity() > RECOMENDED_SPEED));

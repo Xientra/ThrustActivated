@@ -635,23 +635,8 @@
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Monetization">
-      <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/UnityEngine.Monetization.dll</HintPath>
-    </Reference>
-    <Reference Include="com.unity.multiplayer-hlapi.Editor">
-      <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Purchasing">
-      <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/UnityEngine.Purchasing.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.Purchasing">
-      <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/UnityEditor.Purchasing.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -662,20 +647,8 @@
     <Reference Include="Unity.Timeline">
       <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Postprocessing.Editor">
       <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="com.unity.multiplayer-weaver.Editor">
-      <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/com.unity.multiplayer-weaver.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.XR.LegacyInputHelpers">
-      <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Rider.Editor">
-      <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
       <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
@@ -686,17 +659,8 @@
     <Reference Include="Unity.2D.Tilemap.Editor">
       <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.SpatialTracking">
-      <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.SpatialTracking">
-      <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
       <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Advertisements.Editor">
-      <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/UnityEngine.Advertisements.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
@@ -704,14 +668,8 @@
     <Reference Include="Unity.Analytics.DataPrivacy">
       <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.XR.LegacyInputHelpers">
-      <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="com.unity.multiplayer-hlapi.Runtime">
-      <HintPath>D:/_Computerstuff/Unity/ThrustActivated/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup></ItemGroup>
